@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="google-site-verification" content="H-CsBOqJwWINL9TgLFrGlD0FRXJIhw4RtPimOBNVYRY" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ResumeIQ – India's All-Industry Job Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --brand: #1a3faa;
+  --brand-dark: #0f2680;
+  --brand-light: #e8eeff;
+  --accent: #f97316;
+  --accent-light: #fff4ed;
+  --bg: #ffffff;
+  --bg2: #f7f8fc;
+  --bg3: #eef0f7;
+  --text: #111827;
+  --muted: #6b7280;
+  --border: rgba(0,0,0,0.1);
+  --radius: 12px;
+}
+body { font-family: 'DM Sans', sans-serif; color: var(--text); background: #f5f6fa; }
+
+/* NAVBAR */
+.nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 32px; border-bottom: 1px solid var(--border);
+  background: #fff; position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+}
+.logo { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: var(--brand); letter-spacing: -0.5px; text-decoration: none; }
+.logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 24px; align-items: center; }
+.nav-links a { font-size: 14px; color: var(--muted); cursor: pointer; text-decoration: none; transition: color 0.15s; }
+.nav-links a:hover { color: var(--brand); }
+.nav-btn { background: var(--brand); color: #fff; border: none; padding: 9px 20px; border-radius: 8px; font-size: 14px; font-family: 'DM Sans', sans-serif; cursor: pointer; font-weight: 500; }
+.nav-btn:hover { background: var(--brand-dark); }
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, #0f2680 0%, #1a3faa 55%, #2563eb 100%);
+  padding: 64px 32px 52px; text-align: center; position: relative; overflow: hidden;
+}
+.hero::before { content: ''; position: absolute; top: -80px; right: -80px; width: 360px; height: 360px; border-radius: 50%; background: rgba(249,115,22,0.12); pointer-events: none; }
+.hero::after { content: ''; position: absolute; bottom: -100px; left: -60px; width: 300px; height: 300px; border-radius: 50%; background: rgba(255,255,255,0.05); pointer-events: none; }
+.hero-badge { display: inline-block; background: rgba(249,115,22,0.2); color: #fed7aa; border: 1px solid rgba(249,115,22,0.3); padding: 5px 16px; border-radius: 20px; font-size: 13px; margin-bottom: 18px; }
+.hero h1 { font-family: 'Syne', sans-serif; font-size: 40px; font-weight: 800; color: #fff; line-height: 1.15; margin-bottom: 12px; }
+.hero h1 span { color: #fb923c; }
+.hero p { color: rgba(255,255,255,0.75); font-size: 16px; margin-bottom: 32px; }
+
+/* SEARCH BOX */
+.search-box {
+  background: #fff; border-radius: 14px; padding: 7px;
+  display: flex; gap: 8px; max-width: 720px; margin: 0 auto 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+.search-box input {
+  flex: 1; border: none; outline: none; font-size: 15px; padding: 9px 14px;
+  background: transparent; color: #111; font-family: 'DM Sans', sans-serif;
+}
+.search-box select {
+  border: none; outline: none; font-size: 14px; padding: 9px 10px;
+  background: #f5f6fa; border-radius: 9px; color: #333; font-family: 'DM Sans', sans-serif;
+  cursor: pointer; min-width: 130px;
+}
+.search-btn {
+  background: var(--accent); color: #fff; border: none; padding: 11px 26px;
+  border-radius: 9px; font-size: 15px; font-weight: 500; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; white-space: nowrap; transition: opacity 0.15s;
+}
+.search-btn:hover { opacity: 0.9; }
+.hero-stats { display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; }
+.hero-stat { color: rgba(255,255,255,0.85); font-size: 14px; }
+.hero-stat strong { color: #fff; font-weight: 600; font-size: 16px; }
+
+/* CONTENT */
+.content { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+.section { padding: 36px 0; }
+.section-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+.section-sub { color: var(--muted); font-size: 14px; margin-bottom: 22px; }
+
+/* SECTORS */
+.sectors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+.sector-card {
+  background: #fff; border: 1px solid var(--border); border-radius: 10px;
+  padding: 16px 12px; text-align: center; cursor: pointer; transition: all 0.2s;
+}
+.sector-card:hover { border-color: var(--brand); background: var(--brand-light); transform: translateY(-3px); box-shadow: 0 4px 16px rgba(26,63,170,0.12); }
+.sector-card.active { border-color: var(--brand); background: var(--brand-light); box-shadow: 0 4px 16px rgba(26,63,170,0.12); }
+.sector-icon { font-size: 24px; margin-bottom: 7px; }
+.sector-name { font-size: 12px; font-weight: 500; color: var(--text); line-height: 1.3; }
+.sector-count { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+/* FILTERS */
+.filters-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
+.filter-label { font-size: 13px; color: var(--muted); white-space: nowrap; font-weight: 500; }
+.filter-chip {
+  background: #fff; border: 1px solid var(--border); border-radius: 20px;
+  padding: 5px 16px; font-size: 13px; cursor: pointer; color: var(--muted); transition: all 0.15s;
+}
+.filter-chip:hover { border-color: var(--brand); color: var(--brand); }
+.filter-chip.active { background: var(--brand); color: #fff; border-color: var(--brand); }
+
+/* JOB CARDS */
+.jobs-grid { display: flex; flex-direction: column; gap: 12px; }
+.job-card {
+  background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 18px 20px; cursor: pointer; transition: all 0.2s; position: relative;
+}
+.job-card:hover { border-color: var(--brand); box-shadow: 0 4px 18px rgba(26,63,170,0.1); transform: translateY(-1px); }
+.job-top { display: flex; align-items: flex-start; gap: 14px; }
+.company-logo {
+  width: 48px; height: 48px; border-radius: 10px; border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center; font-size: 22px;
+  background: var(--bg2); flex-shrink: 0;
+}
+.job-main { flex: 1; min-width: 0; }
+.job-title { font-size: 16px; font-weight: 500; margin-bottom: 3px; }
+.job-company { font-size: 14px; color: var(--muted); }
+.job-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.job-tag { font-size: 12px; padding: 3px 12px; border-radius: 20px; background: var(--bg3); color: var(--muted); }
+.job-tag.type { background: var(--brand-light); color: var(--brand); }
+.job-tag.hot { background: #fff4ed; color: #c2410c; }
+.job-tag.salary { background: #f0fdf4; color: #166534; }
+.job-tag.govt { background: #fef3c7; color: #92400e; }
+.job-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0; }
+.apply-btn {
+  background: var(--brand); color: #fff; border: none; padding: 8px 18px;
+  border-radius: 8px; font-size: 13px; cursor: pointer; font-family: 'DM Sans', sans-serif;
+  font-weight: 500; white-space: nowrap; transition: opacity 0.15s;
+}
+.apply-btn:hover { opacity: 0.9; }
+.job-days { font-size: 12px; color: var(--muted); }
+.featured-badge {
+  position: absolute; top: 14px; right: 14px;
+  background: #fef3c7; color: #92400e; font-size: 11px; padding: 3px 10px;
+  border-radius: 10px; font-weight: 500;
+}
+
+/* PAGINATION */
+.pagination { display: flex; gap: 6px; justify-content: center; margin-top: 28px; }
+.page-btn {
+  background: #fff; border: 1px solid var(--border); border-radius: 8px;
+  width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+  font-size: 14px; cursor: pointer; color: var(--muted); transition: all 0.15s;
+}
+.page-btn:hover, .page-btn.active { background: var(--brand); color: #fff; border-color: var(--brand); }
+
+/* CTA BANNER */
+.cta-banner {
+  background: linear-gradient(135deg, #1a3faa, #2563eb); border-radius: 16px;
+  padding: 36px 32px; text-align: center; margin: 40px 0;
+}
+.cta-banner h3 { font-family: 'Syne', sans-serif; color: #fff; font-size: 24px; font-weight: 700; margin-bottom: 10px; }
+.cta-banner p { color: rgba(255,255,255,0.75); font-size: 14px; margin-bottom: 22px; }
+.cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.cta-btn-white { background: #fff; color: var(--brand); border: none; padding: 11px 24px; border-radius: 9px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+.cta-btn-white:hover { background: #f0f4ff; }
+.cta-btn-outline { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.4); padding: 11px 24px; border-radius: 9px; font-size: 14px; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+.cta-btn-outline:hover { background: rgba(255,255,255,0.08); }
+
+/* FOOTER */
+footer { background: #0f1b4d; color: rgba(255,255,255,0.6); text-align: center; padding: 28px; font-size: 13px; }
+footer strong { color: #fff; }
+
+/* RESULT COUNT */
+.result-count { font-size: 14px; color: var(--muted); margin-bottom: 16px; }
+.result-count strong { color: var(--text); }
+
+/* EMPTY */
+.empty { text-align: center; padding: 60px 20px; color: var(--muted); background: #fff; border-radius: var(--radius); border: 1px solid var(--border); }
+.empty-icon { font-size: 40px; margin-bottom: 14px; }
+.empty p { font-size: 15px; }
+
+@media (max-width: 600px) {
+  .nav-links { display: none; }
+  .hero h1 { font-size: 28px; }
+  .search-box { flex-wrap: wrap; }
+  .job-right { display: none; }
+  .sectors-grid { grid-template-columns: repeat(3, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="nav">
+  <a class="logo" href="#">Resume<span>IQ</span></a>
+  <div class="nav-links">
+    <a href="#jobs">Jobs</a>
+    <a href="#sectors">Industries</a>
+    <a href="#">Companies</a>
+    <a href="#">Salaries</a>
+    <a href="#">Resume Builder</a>
+  </div>
+  <button class="nav-btn">Post a Job</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🇮🇳 India's #1 All-Industry Job Portal</div>
+  <h1>Find Your Dream Job<br>Across <span>All of India</span></h1>
+  <p>Engineering, Hotel Management, Healthcare, Finance, Arts, Government & beyond</p>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Job title, skills or company..." oninput="filterJobs()" />
+    <select id="locationFilter" onchange="filterJobs()">
+      <option value="">All India</option>
+      <option>Bangalore</option>
+      <option>Mumbai</option>
+      <option>Delhi NCR</option>
+      <option>Hyderabad</option>
+      <option>Chennai</option>
+      <option>Pune</option>
+      <option>Kolkata</option>
+      <option>Ahmedabad</option>
+      <option>Jaipur</option>
+      <option>Kochi</option>
+      <option>Lucknow</option>
+      <option>Goa</option>
+    </select>
+    <button class="search-btn" onclick="filterJobs()">Search Jobs</button>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>2.4L+</strong> Live Jobs</div>
+    <div class="hero-stat"><strong>50K+</strong> Companies</div>
+    <div class="hero-stat"><strong>18+</strong> Industries</div>
+    <div class="hero-stat"><strong>500+</strong> Cities</div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- SECTORS -->
+  <div class="section" id="sectors">
+    <div class="section-title">Browse by Industry</div>
+    <div class="section-sub">All major sectors across India — click to filter jobs</div>
+    <div class="sectors-grid" id="sectorsGrid"></div>
+  </div>
+
+  <!-- JOBS -->
+  <div class="section" id="jobs">
+    <div class="section-title">Latest Opportunities</div>
+    <div class="section-sub">Updated daily from top employers across India</div>
+
+    <div class="filters-row">
+      <span class="filter-label">Experience:</span>
+      <div class="filter-chip active" onclick="setFilter('exp','all',this)">All Levels</div>
+      <div class="filter-chip" onclick="setFilter('exp','fresher',this)">Fresher</div>
+      <div class="filter-chip" onclick="setFilter('exp','1-3',this)">1–3 yrs</div>
+      <div class="filter-chip" onclick="setFilter('exp','3-5',this)">3–5 yrs</div>
+      <div class="filter-chip" onclick="setFilter('exp','5+',this)">5+ yrs</div>
+    </div>
+    <div class="filters-row">
+      <span class="filter-label">Job Type:</span>
+      <div class="filter-chip active" onclick="setFilter('type','all',this)">All</div>
+      <div class="filter-chip" onclick="setFilter('type','fulltime',this)">Full-time</div>
+      <div class="filter-chip" onclick="setFilter('type','parttime',this)">Part-time</div>
+      <div class="filter-chip" onclick="setFilter('type','remote',this)">Remote</div>
+      <div class="filter-chip" onclick="setFilter('type','internship',this)">Internship</div>
+      <div class="filter-chip" onclick="setFilter('type','govt',this)">Govt / PSU</div>
+    </div>
+
+    <div class="result-count" id="resultCount"></div>
+    <div class="jobs-grid" id="jobsGrid"></div>
+    <div class="pagination" id="pagination"></div>
+  </div>
+
+  <!-- CTA BANNER -->
+  <div class="cta-banner">
+    <h3>Get Hired 3× Faster with ResumeIQ</h3>
+    <p>AI-powered resume builder, ATS optimization, skill gap analysis & interview prep — all in one place</p>
+    <div class="cta-btns">
+      <button class="cta-btn-white">Build My Resume →</button>
+      <button class="cta-btn-outline">View Salary Insights</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <strong>ResumeIQ India</strong> — Connecting talent with opportunity across every industry &nbsp;|&nbsp;
+  Engineering · Hotel Management · Healthcare · Finance · IT · Education · Government · and more
+  <br><br>Founded by <strong>Gopireddy Gopal</strong> — Analyst · Founder & CEO, ResumeIQ &nbsp;|&nbsp; © 2025 ResumeIQ. All rights reserved.
+</footer>
+
+<script>
+const sectors = [
+  { icon:'⚙️', name:'Engineering', count:'48,200+', key:'engineering' },
+  { icon:'🏨', name:'Hotel Mgmt', count:'12,400+', key:'hotel' },
+  { icon:'🏥', name:'Healthcare', count:'31,800+', key:'healthcare' },
+  { icon:'💻', name:'IT & Software', count:'72,100+', key:'it' },
+  { icon:'🏦', name:'Banking & Finance', count:'29,500+', key:'finance' },
+  { icon:'📚', name:'Education', count:'18,600+', key:'education' },
+  { icon:'✈️', name:'Aviation', count:'4,200+', key:'aviation' },
+  { icon:'🚚', name:'Logistics', count:'15,300+', key:'logistics' },
+  { icon:'🏗️', name:'Construction', count:'22,700+', key:'construction' },
+  { icon:'📺', name:'Media & Arts', count:'8,900+', key:'media' },
+  { icon:'⚖️', name:'Legal', count:'6,400+', key:'legal' },
+  { icon:'🛒', name:'Retail & FMCG', count:'35,200+', key:'retail' },
+  { icon:'🌾', name:'Agriculture', count:'9,800+', key:'agri' },
+  { icon:'🎭', name:'Fashion & Design', count:'5,100+', key:'fashion' },
+  { icon:'🔬', name:'Research & Science', count:'7,300+', key:'science' },
+  { icon:'🏛️', name:'Government / PSU', count:'41,000+', key:'govt' },
+  { icon:'🚗', name:'Automobile', count:'13,600+', key:'auto' },
+  { icon:'💡', name:'Startups', count:'24,500+', key:'startup' },
+];
+
+const allJobs = [
+  { id:1, title:'Senior Software Engineer', company:'Infosys', icon:'🔷', location:'Bangalore', type:'Full-time', exp:'3-5', salary:'₹12–18 LPA', sector:'it', days:1, featured:true },
+  { id:2, title:'Hotel General Manager', company:'Taj Hotels', icon:'🏨', location:'Mumbai', type:'Full-time', exp:'5+', salary:'₹20–30 LPA', sector:'hotel', days:2, featured:true },
+  { id:3, title:'Civil Engineer', company:'L&T Construction', icon:'🏗️', location:'Delhi NCR', type:'Full-time', exp:'1-3', salary:'₹5–9 LPA', sector:'engineering', days:1 },
+  { id:4, title:'MBBS Doctor – Resident', company:'Apollo Hospitals', icon:'🏥', location:'Chennai', type:'Full-time', exp:'fresher', salary:'₹8–12 LPA', sector:'healthcare', days:3 },
+  { id:5, title:'Branch Manager – Banking', company:'HDFC Bank', icon:'🏦', location:'Hyderabad', type:'Full-time', exp:'5+', salary:'₹15–22 LPA', sector:'finance', days:2, featured:true },
+  { id:6, title:'Assistant Professor', company:'IIT Bombay', icon:'📚', location:'Mumbai', type:'Full-time', exp:'5+', salary:'₹10–15 LPA', sector:'education', days:5 },
+  { id:7, title:'Cabin Crew', company:'IndiGo Airlines', icon:'✈️', location:'Delhi NCR', type:'Full-time', exp:'fresher', salary:'₹4–6 LPA', sector:'aviation', days:1 },
+  { id:8, title:'Supply Chain Analyst', company:'Amazon India', icon:'📦', location:'Pune', type:'Full-time', exp:'1-3', salary:'₹7–11 LPA', sector:'logistics', days:4 },
+  { id:9, title:'Mechanical Engineer', company:'Tata Motors', icon:'🚗', location:'Pune', type:'Full-time', exp:'1-3', salary:'₹6–10 LPA', sector:'auto', days:2 },
+  { id:10, title:'Digital Marketing Manager', company:'Nykaa', icon:'💄', location:'Mumbai', type:'Full-time', exp:'3-5', salary:'₹10–16 LPA', sector:'retail', days:3 },
+  { id:11, title:'Data Scientist', company:'Wipro', icon:'📊', location:'Bangalore', type:'Full-time', exp:'3-5', salary:'₹14–20 LPA', sector:'it', days:1 },
+  { id:12, title:'IAS – UPSC Civil Services', company:'Govt of India', icon:'🏛️', location:'All India', type:'Govt', exp:'fresher', salary:'₹56,100+ PM', sector:'govt', days:10, featured:true },
+  { id:13, title:'Executive Chef', company:'Marriott International', icon:'👨‍🍳', location:'Goa', type:'Full-time', exp:'5+', salary:'₹12–18 LPA', sector:'hotel', days:4 },
+  { id:14, title:'Fashion Designer', company:'Fabindia', icon:'👗', location:'Delhi NCR', type:'Full-time', exp:'1-3', salary:'₹5–8 LPA', sector:'fashion', days:7 },
+  { id:15, title:'Legal Counsel', company:'Mahindra Group', icon:'⚖️', location:'Mumbai', type:'Full-time', exp:'5+', salary:'₹20–28 LPA', sector:'legal', days:3 },
+  { id:16, title:'Agricultural Officer', company:'State Govt – UP', icon:'🌾', location:'Lucknow', type:'Govt', exp:'fresher', salary:'₹35,000+ PM', sector:'agri', days:8 },
+  { id:17, title:'UI/UX Designer', company:'Swiggy', icon:'🎨', location:'Bangalore', type:'Remote', exp:'1-3', salary:'₹9–14 LPA', sector:'startup', days:2 },
+  { id:18, title:'Product Manager', company:'PhonePe', icon:'📱', location:'Bangalore', type:'Full-time', exp:'3-5', salary:'₹22–35 LPA', sector:'startup', days:1, featured:true },
+  { id:19, title:'Structural Engineer', company:'NHAI', icon:'🛣️', location:'Delhi NCR', type:'Govt', exp:'3-5', salary:'₹10–14 LPA', sector:'engineering', days:5 },
+  { id:20, title:'ICU Nurse Specialist', company:'Fortis Healthcare', icon:'💉', location:'Bangalore', type:'Full-time', exp:'1-3', salary:'₹4–7 LPA', sector:'healthcare', days:3 },
+  { id:21, title:'TV News Anchor', company:'NDTV', icon:'📺', location:'Delhi NCR', type:'Full-time', exp:'3-5', salary:'₹8–15 LPA', sector:'media', days:6 },
+  { id:22, title:'Research Scientist – Biotech', company:'CSIR-CDRI', icon:'🔬', location:'Lucknow', type:'Full-time', exp:'5+', salary:'₹12–20 LPA', sector:'science', days:4 },
+  { id:23, title:'Logistics Manager', company:'Blue Dart', icon:'🚚', location:'Mumbai', type:'Full-time', exp:'3-5', salary:'₹9–14 LPA', sector:'logistics', days:2 },
+  { id:24, title:'Electrician / Technician', company:'BHEL', icon:'⚡', location:'Haridwar', type:'Full-time', exp:'1-3', salary:'₹3–5 LPA', sector:'engineering', days:9 },
+  { id:25, title:'Front Office Manager', company:'Hyatt Regency', icon:'🏨', location:'Bangalore', type:'Full-time', exp:'3-5', salary:'₹7–11 LPA', sector:'hotel', days:3 },
+  { id:26, title:'Bank PO (IBPS)', company:'Punjab National Bank', icon:'🏦', location:'All India', type:'Govt', exp:'fresher', salary:'₹44,000+ PM', sector:'finance', days:6 },
+  { id:27, title:'DevOps Engineer', company:'HCL Technologies', icon:'☁️', location:'Hyderabad', type:'Remote', exp:'3-5', salary:'₹14–22 LPA', sector:'it', days:2 },
+  { id:28, title:'Automobile Design Engineer', company:'Maruti Suzuki', icon:'🏎️', location:'Gurugram', type:'Full-time', exp:'1-3', salary:'₹7–12 LPA', sector:'auto', days:5 },
+  { id:29, title:'School Principal', company:'Delhi Public School', icon:'🏫', location:'Delhi NCR', type:'Full-time', exp:'5+', salary:'₹12–18 LPA', sector:'education', days:7 },
+  { id:30, title:'Graphic Designer', company:'Zee Entertainment', icon:'🎬', location:'Mumbai', type:'Full-time', exp:'1-3', salary:'₹5–9 LPA', sector:'media', days:4 },
+  { id:31, title:'Pharmacist', company:'Apollo Pharmacy', icon:'💊', location:'Chennai', type:'Full-time', exp:'fresher', salary:'₹3–5 LPA', sector:'healthcare', days:5 },
+  { id:32, title:'Construction Project Manager', company:'Shapoorji Pallonji', icon:'🏗️', location:'Mumbai', type:'Full-time', exp:'5+', salary:'₹18–28 LPA', sector:'construction', days:3, featured:true },
+];
+
+let activeFilters = { exp: 'all', type: 'all', sector: 'all' };
+let currentPage = 1;
+const PER_PAGE = 8;
+
+function renderSectors() {
+  const grid = document.getElementById('sectorsGrid');
+  grid.innerHTML = sectors.map(s => `
+    <div class="sector-card ${activeFilters.sector===s.key?'active':''}" onclick="setSector('${s.key}')">
+      <div class="sector-icon">${s.icon}</div>
+      <div class="sector-name">${s.name}</div>
+      <div class="sector-count">${s.count}</div>
+    </div>
+  `).join('');
+}
+
+function setSector(key) {
+  activeFilters.sector = activeFilters.sector === key ? 'all' : key;
+  currentPage = 1;
+  renderSectors();
+  filterJobs();
+  document.getElementById('jobs').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function setFilter(type, val, el) {
+  activeFilters[type] = val;
+  currentPage = 1;
+  el.closest('.filters-row').querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  filterJobs();
+}
+
+function filterJobs() {
+  const query = (document.getElementById('searchInput').value || '').toLowerCase();
+  const loc = document.getElementById('locationFilter').value;
+
+  let filtered = allJobs.filter(j => {
+    const matchQ = !query || j.title.toLowerCase().includes(query) || j.company.toLowerCase().includes(query) || j.location.toLowerCase().includes(query);
+    const matchL = !loc || j.location.includes(loc);
+    const matchE = activeFilters.exp === 'all' || j.exp === activeFilters.exp;
+    const matchT = activeFilters.type === 'all' ||
+      (activeFilters.type === 'remote' && j.type === 'Remote') ||
+      (activeFilters.type === 'fulltime' && j.type === 'Full-time') ||
+      (activeFilters.type === 'govt' && j.type === 'Govt') ||
+      (activeFilters.type === 'parttime' && j.type === 'Part-time') ||
+      (activeFilters.type === 'internship' && j.type === 'Internship');
+    const matchS = activeFilters.sector === 'all' || j.sector === activeFilters.sector;
+    return matchQ && matchL && matchE && matchT && matchS;
+  });
+
+  const total = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
+  if (currentPage > totalPages) currentPage = 1;
+  const pageJobs = filtered.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
+
+  document.getElementById('resultCount').innerHTML = `Showing <strong>${pageJobs.length}</strong> of <strong>${total}</strong> jobs`;
+
+  const grid = document.getElementById('jobsGrid');
+  if (pageJobs.length === 0) {
+    grid.innerHTML = `<div class="empty"><div class="empty-icon">🔍</div><p>No jobs found. Try adjusting your filters or search terms.</p></div>`;
+  } else {
+    grid.innerHTML = pageJobs.map(j => `
+      <div class="job-card">
+        ${j.featured ? '<div class="featured-badge">⭐ Featured</div>' : ''}
+        <div class="job-top">
+          <div class="company-logo">${j.icon}</div>
+          <div class="job-main">
+            <div class="job-title">${j.title}</div>
+            <div class="job-company">${j.company} &nbsp;·&nbsp; ${j.location}</div>
+            <div class="job-meta">
+              <span class="job-tag type">${j.type}</span>
+              <span class="job-tag">${j.exp === 'fresher' ? 'Fresher' : j.exp + ' yrs'}</span>
+              <span class="job-tag salary">${j.salary}</span>
+              ${j.featured ? '<span class="job-tag hot">🔥 Hot</span>' : ''}
+              ${j.type === 'Govt' ? '<span class="job-tag govt">Govt / PSU</span>' : ''}
+            </div>
+          </div>
+          <div class="job-right">
+            <button class="apply-btn">Apply Now</button>
+            <span class="job-days">${j.days === 1 ? 'Today' : j.days + 'd ago'}</span>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Pagination
+  const pag = document.getElementById('pagination');
+  if (totalPages <= 1) { pag.innerHTML = ''; return; }
+  let html = '';
+  if (currentPage > 1) html += `<div class="page-btn" onclick="goPage(${currentPage-1})">‹</div>`;
+  for (let i = Math.max(1, currentPage-2); i <= Math.min(totalPages, currentPage+2); i++) {
+    html += `<div class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</div>`;
+  }
+  if (currentPage < totalPages) html += `<div class="page-btn" onclick="goPage(${currentPage+1})">›</div>`;
+  pag.innerHTML = html;
+}
+
+function goPage(p) {
+  currentPage = p;
+  filterJobs();
+  document.getElementById('jobs').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+renderSectors();
+filterJobs();
+</script>
+</body>
+</html>
