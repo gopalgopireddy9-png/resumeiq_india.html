@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ResumeIQ - Job Listings</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand: #1a3faa;
+      --brand-dark: #0f2680;
+      --accent: #f97316;
+      --bg: #f0f4ff;
+      --bg2: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --card-shadow: 0 2px 16px rgba(26,63,170,0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand) 100%);
+      color: white;
+      padding: 48px 24px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      top: -150px; right: -100px;
+    }
+    .header h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+    .header h1 span { color: var(--accent); }
+    .header p {
+      margin-top: 10px;
+      font-size: 1.05rem;
+      opacity: 0.85;
+    }
+
+    /* ── Search Bar ── */
+    .search-wrap {
+      max-width: 700px;
+      margin: -26px auto 0;
+      padding: 0 16px;
+      position: relative;
+      z-index: 10;
+    }
+    .search-bar {
+      display: flex;
+      gap: 0;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(26,63,170,0.18);
+    }
+    .search-bar input {
+      flex: 1;
+      padding: 18px 20px;
+      border: none;
+      font-size: 1rem;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      background: white;
+    }
+    .search-bar button {
+      padding: 18px 28px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      font-size: 1rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .search-bar button:hover { background: #ea6c05; }
+
+    /* ── Filters ── */
+    .filters {
+      max-width: 1100px;
+      margin: 32px auto 0;
+      padding: 0 16px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .filter-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-right: 4px;
+    }
+    .filter-btn {
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: 2px solid var(--border);
+      background: white;
+      font-size: 0.85rem;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--brand);
+      color: white;
+      border-color: var(--brand);
+    }
+
+    /* ── Source Tabs ── */
+    .source-tabs {
+      max-width: 1100px;
+      margin: 28px auto 0;
+      padding: 0 16px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .source-tab {
+      padding: 10px 22px;
+      border-radius: 10px;
+      border: 2px solid var(--border);
+      background: white;
+      font-size: 0.9rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .source-tab .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+    }
+    .source-tab[data-source="all"] .dot { background: var(--brand); }
+    .source-tab[data-source="adzuna"] .dot { background: #e63946; }
+    .source-tab[data-source="jsearch"] .dot { background: #2a9d8f; }
+    .source-tab[data-source="remotive"] .dot { background: #e9c46a; }
+    .source-tab.active, .source-tab:hover {
+      background: var(--brand);
+      color: white;
+      border-color: var(--brand);
+    }
+    .source-tab.active .dot, .source-tab:hover .dot { background: white; }
+
+    /* ── Stats Bar ── */
+    .stats-bar {
+      max-width: 1100px;
+      margin: 20px auto 0;
+      padding: 0 16px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .stat-item strong { color: var(--text); font-weight: 700; }
+    .source-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .badge-adzuna { background: #fff0f0; color: #e63946; }
+    .badge-jsearch { background: #f0faf9; color: #2a9d8f; }
+    .badge-remotive { background: #fdfbf0; color: #b5860a; }
+
+    /* ── Job Grid ── */
+    .jobs-container {
+      max-width: 1100px;
+      margin: 24px auto 60px;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    /* ── Job Card ── */
+    .job-card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      border: 1.5px solid var(--border);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      animation: fadeUp 0.4s ease both;
+    }
+    .job-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(26,63,170,0.14);
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .company-logo {
+      width: 46px; height: 46px;
+      border-radius: 10px;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--brand);
+      flex-shrink: 0;
+    }
+    .job-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+      flex: 1;
+    }
+    .company-name {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .job-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .meta-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: var(--bg);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .job-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .apply-btn {
+      padding: 9px 20px;
+      background: var(--brand);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .apply-btn:hover { background: var(--brand-dark); }
+    .posted-date {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* ── Loading ── */
+    .loading {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .spinner {
+      width: 48px; height: 48px;
+      border: 4px solid var(--border);
+      border-top-color: var(--brand);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading p { color: var(--text-muted); font-size: 0.95rem; }
+
+    /* ── Empty ── */
+    .empty-state {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+    }
+    .empty-state .emoji { font-size: 3rem; margin-bottom: 12px; }
+
+    /* ── Setup Notice ── */
+    .setup-notice {
+      max-width: 700px;
+      margin: 24px auto 0;
+      padding: 16px 20px;
+      background: #fffbeb;
+      border: 1.5px solid #fcd34d;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      color: #92400e;
+      line-height: 1.6;
+    }
+    .setup-notice strong { color: #78350f; }
+    .setup-notice code {
+      background: #fef3c7;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.82rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <h1>Resume<span>IQ</span> Jobs</h1>
+    <p>All-Industry Job Listings — Powered by Adzuna · JSearch · Remotive</p>
+  </div>
+
+  <!-- Search -->
+  <div class="search-wrap">
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search jobs, skills, companies..." />
+      <button onclick="searchJobs()">Search</button>
+    </div>
+  </div>
+
+  <!-- Setup Notice -->
+  <div class="setup-notice" id="setupNotice">
+    ⚙️ <strong>Setup Required:</strong> To activate live job data, add your API keys in the script section below:
+    <code>ADZUNA_APP_ID</code>, <code>ADZUNA_APP_KEY</code>, and <code>JSEARCH_KEY</code>.
+    Remotive works without any key. <a href="#" onclick="document.getElementById('setupNotice').style.display='none'">Dismiss</a>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters">
+    <span class="filter-label">Category:</span>
+    <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+    <button class="filter-btn" onclick="setFilter('it-jobs', this)">IT</button>
+    <button class="filter-btn" onclick="setFilter('engineering-jobs', this)">Engineering</button>
+    <button class="filter-btn" onclick="setFilter('healthcare-jobs', this)">Healthcare</button>
+    <button class="filter-btn" onclick="setFilter('finance-jobs', this)">Finance</button>
+    <button class="filter-btn" onclick="setFilter('sales-jobs', this)">Sales</button>
+    <button class="filter-btn" onclick="setFilter('teaching-jobs', this)">Education</button>
+  </div>
+
+  <!-- Source Tabs -->
+  <div class="source-tabs">
+    <button class="source-tab active" data-source="all" onclick="setSource('all', this)">
+      <span class="dot"></span> All Sources
+    </button>
+    <button class="source-tab" data-source="adzuna" onclick="setSource('adzuna', this)">
+      <span class="dot"></span> Adzuna
+    </button>
+    <button class="source-tab" data-source="jsearch" onclick="setSource('jsearch', this)">
+      <span class="dot"></span> JSearch
+    </button>
+    <button class="source-tab" data-source="remotive" onclick="setSource('remotive', this)">
+      <span class="dot"></span> Remotive
+    </button>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar" id="statsBar">
+    <div class="stat-item">Loading jobs...</div>
+  </div>
+
+  <!-- Jobs Grid -->
+  <div class="jobs-container" id="jobsContainer">
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Fetching jobs from all sources...</p>
+    </div>
+  </div>
+
+  <script>
+    // ══════════════════════════════════════════
+    // 🔑 ADD YOUR API KEYS HERE
+    // ══════════════════════════════════════════
+    const CONFIG = {
+      ADZUNA_APP_ID:  '34b3720f',
+      ADZUNA_APP_KEY: 'dcb28056b2804fd18a2fa90592c05d9b',
+      JSEARCH_KEY:    'YOUR_JSEARCH_KEY',     // get free at rapidapi.com/jsearch
+    };
+    // ══════════════════════════════════════════
+
+    let allJobs = [];
+    let currentFilter = 'all';
+    let currentSource = 'all';
+    let currentSearch = '';
+
+    // ── Fetch Remotive (no key needed) ──
+    async function fetchRemotive(query) {
+      try {
+        const q = query || 'developer';
+        const res = await fetch(`https://remotive.com/api/remote-jobs?search=${encodeURIComponent(q)}&limit=15`);
+        const data = await res.json();
+        return (data.jobs || []).map(j => ({
+          source: 'remotive',
+          id: 'r_' + j.id,
+          title: j.title,
+          company: j.company_name,
+          location: j.candidate_required_location || 'Remote',
+          type: j.job_type || 'Full-time',
+          salary: j.salary || '',
+          description: j.description?.replace(/<[^>]*>/g, '').slice(0, 200) || '',
+          url: j.url,
+          date: j.publication_date?.slice(0, 10) || '',
+          logo: j.company_logo || ''
+        }));
+      } catch (e) {
+        console.warn('Remotive error:', e);
+        return [];
+      }
+    }
+
+    // ── Fetch Adzuna ──
+    async function fetchAdzuna(query, category) {
+      if (CONFIG.ADZUNA_APP_ID === 'YOUR_ADZUNA_APP_ID') return getDemoJobs('adzuna');
+      try {
+        const q = query || 'jobs';
+        const cat = category !== 'all' ? `&category=${category}` : '';
+        const res = await fetch(
+          `https://api.adzuna.com/v1/api/jobs/in/search/1?app_id=${CONFIG.ADZUNA_APP_ID}&app_key=${CONFIG.ADZUNA_APP_KEY}&results_per_page=15&what=${encodeURIComponent(q)}${cat}&content-type=application/json`
+        );
+        const data = await res.json();
+        return (data.results || []).map(j => ({
+          source: 'adzuna',
+          id: 'a_' + j.id,
+          title: j.title,
+          company: j.company?.display_name || 'Company',
+          location: j.location?.display_name || 'India',
+          type: j.contract_time || 'Full-time',
+          salary: j.salary_min ? `₹${Math.round(j.salary_min/1000)}k - ₹${Math.round(j.salary_max/1000)}k` : '',
+          description: j.description?.slice(0, 200) || '',
+          url: j.redirect_url,
+          date: j.created?.slice(0, 10) || '',
+          logo: ''
+        }));
+      } catch (e) {
+        console.warn('Adzuna error:', e);
+        return getDemoJobs('adzuna');
+      }
+    }
+
+    // ── Fetch JSearch ──
+    async function fetchJSearch(query) {
+      if (CONFIG.JSEARCH_KEY === 'YOUR_JSEARCH_KEY') return getDemoJobs('jsearch');
+      try {
+        const q = query || 'jobs in India';
+        const res = await fetch(
+          `https://jsearch.p.rapidapi.com/search?query=${encodeURIComponent(q)}&num_pages=1&page=1`,
+          { headers: { 'X-RapidAPI-Key': CONFIG.JSEARCH_KEY, 'X-RapidAPI-Host': 'jsearch.p.rapidapi.com' } }
+        );
+        const data = await res.json();
+        return (data.data || []).slice(0, 15).map(j => ({
+          source: 'jsearch',
+          id: 'j_' + j.job_id,
+          title: j.job_title,
+          company: j.employer_name,
+          location: `${j.job_city || ''} ${j.job_country || ''}`.trim(),
+          type: j.job_employment_type || 'Full-time',
+          salary: j.job_min_salary ? `$${j.job_min_salary} - $${j.job_max_salary}` : '',
+          description: j.job_description?.slice(0, 200) || '',
+          url: j.job_apply_link,
+          date: j.job_posted_at_datetime_utc?.slice(0, 10) || '',
+          logo: j.employer_logo || ''
+        }));
+      } catch (e) {
+        console.warn('JSearch error:', e);
+        return getDemoJobs('jsearch');
+      }
+    }
+
+    // ── Demo Jobs (shown when API keys not set) ──
+    function getDemoJobs(source) {
+      const demos = {
+        adzuna: [
+          { title: 'Software Engineer', company: 'TechCorp India', location: 'Bengaluru', type: 'Full-time', salary: '₹8L - ₹15L', description: 'We are looking for a skilled software engineer to join our growing team. Experience with React, Node.js preferred.' },
+          { title: 'Data Analyst', company: 'Analytics Hub', location: 'Hyderabad', type: 'Full-time', salary: '₹6L - ₹10L', description: 'Analyze large datasets to drive business decisions. SQL and Python skills required.' },
+          { title: 'HR Manager', company: 'Global Solutions', location: 'Mumbai', type: 'Full-time', salary: '₹7L - ₹12L', description: 'Lead HR operations, recruitment and employee engagement programs.' },
+          { title: 'Marketing Executive', company: 'BrandBoost', location: 'Delhi', type: 'Full-time', salary: '₹4L - ₹8L', description: 'Drive digital marketing campaigns across social media and SEO channels.' },
+        ],
+        jsearch: [
+          { title: 'Product Manager', company: 'Startup Ventures', location: 'Pune', type: 'Full-time', salary: '₹15L - ₹25L', description: 'Own the product roadmap and work closely with engineering and design teams.' },
+          { title: 'UX Designer', company: 'Design Studio', location: 'Chennai', type: 'Contract', salary: '₹6L - ₹12L', description: 'Create beautiful user experiences for web and mobile applications.' },
+          { title: 'Finance Manager', company: 'Capital Group', location: 'Mumbai', type: 'Full-time', salary: '₹12L - ₹20L', description: 'Manage financial planning, analysis and reporting for the organization.' },
+          { title: 'Sales Executive', company: 'Growth Inc', location: 'Ahmedabad', type: 'Full-time', salary: '₹4L - ₹8L + incentives', description: 'Drive B2B sales and build long-term client relationships.' },
+        ]
+      };
+      return (demos[source] || []).map((j, i) => ({
+        source,
+        id: `${source}_demo_${i}`,
+        title: j.title,
+        company: j.company,
+        location: j.location,
+        type: j.type,
+        salary: j.salary,
+        description: j.description + ' [Demo — add API key for live data]',
+        url: '#',
+        date: new Date().toISOString().slice(0, 10),
+        logo: ''
+      }));
+    }
+
+    // ── Render Jobs ──
+    function renderJobs(jobs) {
+      const container = document.getElementById('jobsContainer');
+      const statsBar = document.getElementById('statsBar');
+
+      const filtered = jobs.filter(j => {
+        const matchSource = currentSource === 'all' || j.source === currentSource;
+        const matchSearch = !currentSearch ||
+          j.title.toLowerCase().includes(currentSearch) ||
+          j.company.toLowerCase().includes(currentSearch) ||
+          j.location.toLowerCase().includes(currentSearch);
+        return matchSource && matchSearch;
+      });
+
+      // Stats
+      const adzunaCount = filtered.filter(j => j.source === 'adzuna').length;
+      const jsearchCount = filtered.filter(j => j.source === 'jsearch').length;
+      const remotiveCount = filtered.filter(j => j.source === 'remotive').length;
+      statsBar.innerHTML = `
+        <div class="stat-item"><strong>${filtered.length}</strong> jobs found</div>
+        <span class="source-badge badge-adzuna">Adzuna: ${adzunaCount}</span>
+        <span class="source-badge badge-jsearch">JSearch: ${jsearchCount}</span>
+        <span class="source-badge badge-remotive">Remotive: ${remotiveCount}</span>
+      `;
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="emoji">🔍</div><p>No jobs found. Try a different search or filter.</p></div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map((job, i) => {
+        const initials = job.company.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+        const badgeClass = `badge-${job.source}`;
+        const sourceLabel = job.source.charAt(0).toUpperCase() + job.source.slice(1);
+        return `
+          <div class="job-card" style="animation-delay:${i * 0.05}s">
+            <div class="card-top">
+              <div>
+                <div class="job-title">${job.title}</div>
+                <div class="company-name">${job.company}</div>
+              </div>
+              <div class="company-logo">${initials}</div>
+            </div>
+            <div class="job-meta">
+              <span class="meta-chip">📍 ${job.location}</span>
+              <span class="meta-chip">💼 ${job.type}</span>
+              ${job.salary ? `<span class="meta-chip">💰 ${job.salary}</span>` : ''}
+              <span class="source-badge ${badgeClass}">${sourceLabel}</span>
+            </div>
+            <p class="job-desc">${job.description}</p>
+            <div class="card-footer">
+              <a href="${job.url}" target="_blank" class="apply-btn">Apply Now →</a>
+              <span class="posted-date">${job.date ? '📅 ' + job.date : ''}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ── Load All Jobs ──
+    async function loadJobs(query, category) {
+      document.getElementById('jobsContainer').innerHTML = `
+        <div class="loading"><div class="spinner"></div><p>Fetching jobs from all sources...</p></div>`;
+      document.getElementById('statsBar').innerHTML = `<div class="stat-item">Loading...</div>`;
+
+      const [adzuna, jsearch, remotive] = await Promise.all([
+        fetchAdzuna(query, category),
+        fetchJSearch(query),
+        fetchRemotive(query)
+      ]);
+
+      allJobs = [...adzuna, ...jsearch, ...remotive];
+      renderJobs(allJobs);
+    }
+
+    function searchJobs() {
+      currentSearch = document.getElementById('searchInput').value.toLowerCase().trim();
+      loadJobs(currentSearch || null, currentFilter);
+    }
+
+    function setFilter(filter, btn) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      loadJobs(currentSearch || null, filter);
+    }
+
+    function setSource(source, btn) {
+      currentSource = source;
+      document.querySelectorAll('.source-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderJobs(allJobs);
+    }
+
+    document.getElementById('searchInput').addEventListener('keypress', e => {
+      if (e.key === 'Enter') searchJobs();
+    });
+
+    // Initial load
+    loadJobs();
+  </script>
+</body>
+</html>
