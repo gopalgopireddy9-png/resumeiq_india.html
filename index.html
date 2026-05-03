@@ -448,7 +448,18 @@ function goPage(p) {
 }
 
 renderSectors();
-filterJobs();
+// Adzuna API Config
+const ADZUNA_APP_ID = '34b3720f';
+const ADZUNA_APP_KEY = 'dcb28056b2804fd18a2fa90592c05d9b';
+
+async function loadAdzunaJobs(query = 'jobs') {
+  const url = `https://api.adzuna.com/v1/api/jobs/in/search/1?app_id=${ADZUNA_APP_ID}&app_key=${ADZUNA_APP_KEY}&results_per_page=20&what=${encodeURIComponent(query)}&content-type=application/json`;
+  const res = await fetch(url);
+  const data = await res.json();
+  return data.results || [];
+}
+loadAdzunaJobs().then(jobs => console.log('Adzuna jobs loaded:', jobs.length));
+  filterJobs();
 </script>
 </body>
 </html>
