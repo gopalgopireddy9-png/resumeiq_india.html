@@ -205,7 +205,7 @@ footer strong { color: #fff; }
   <h1>Find Your Dream Job<br>Across <span>All of India</span></h1>
   <p>Engineering, Hotel Management, Healthcare, Finance, Arts, Government & beyond</p>
   <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Job title, skills or company..." oninput="filterJobs()" />
+    <input type="text" id="searchInput" placeholder="Job title, skills or company..." oninput="filterJobs()" onkeypress="if(event.key==='Enter')filterJobs()" />
     <select id="locationFilter" onchange="filterJobs()">
       <option value="">All India</option>
       <option>Bangalore</option>
