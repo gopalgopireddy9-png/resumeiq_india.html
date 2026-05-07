@@ -1,0 +1,389 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fresher Jobs India — ResumeIQ</title>
+  <meta name="description" content="Find fresher jobs, entry level jobs, internships across India. Jobs for 0-1 year experience freshers." />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand: #1a3faa; --brand-dark: #0f2680; --accent: #f97316;
+      --green: #10b981; --purple: #8b5cf6; --pink: #ec4899;
+      --bg: #f0f4ff; --text: #0f172a; --text-muted: #64748b;
+      --border: #e2e8f0; --shadow: 0 4px 24px rgba(26,63,170,0.10);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); }
+
+    /* NAV */
+    nav { background: white; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 8px rgba(0,0,0,0.06); flex-wrap: wrap; gap: 10px; }
+    .logo { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: var(--brand); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 20px; align-items: center; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .nav-links a:hover { color: var(--brand); }
+    .nav-links a.active { color: var(--brand); font-weight: 700; }
+
+    /* HERO */
+    .hero { background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%); color: white; text-align: center; padding: 56px 24px 48px; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; width: 500px; height: 500px; border-radius: 50%; background: rgba(255,255,255,0.05); top: -200px; right: -100px; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); padding: 6px 16px; border-radius: 999px; font-size: 0.85rem; font-weight: 600; margin-bottom: 20px; }
+    .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; line-height: 1.2; }
+    .hero h1 span { color: #fef08a; }
+    .hero p { margin-top: 12px; opacity: 0.9; font-size: 1.05rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+    /* STATS */
+    .stats { display: flex; justify-content: center; gap: 32px; margin-top: 32px; flex-wrap: wrap; }
+    .stat { text-align: center; }
+    .stat-num { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; }
+    .stat-label { font-size: 0.8rem; opacity: 0.8; margin-top: 2px; }
+
+    /* SEARCH */
+    .search-wrap { max-width: 700px; margin: -26px auto 0; padding: 0 16px; position: relative; z-index: 10; }
+    .search-bar { display: flex; border-radius: 14px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
+    .search-bar input { flex: 1; padding: 18px 20px; border: none; font-size: 1rem; font-family: 'DM Sans', sans-serif; outline: none; }
+    .search-bar button { padding: 18px 28px; background: var(--accent); color: white; border: none; font-size: 1rem; font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer; }
+    .search-bar button:hover { background: #ea6c05; }
+
+    /* CATEGORY CARDS */
+    .categories { max-width: 1100px; margin: 48px auto 0; padding: 0 16px; }
+    .categories h2 { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; margin-bottom: 20px; }
+    .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+    .cat-card { background: white; border-radius: 14px; padding: 20px 16px; text-align: center; cursor: pointer; border: 2px solid var(--border); transition: all 0.2s; box-shadow: var(--shadow); }
+    .cat-card:hover, .cat-card.active { border-color: var(--green); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(16,185,129,0.15); }
+    .cat-card.active { background: #f0fdf4; }
+    .cat-icon { font-size: 2rem; margin-bottom: 8px; }
+    .cat-name { font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 700; }
+    .cat-count { font-size: 0.75rem; color: var(--text-muted); margin-top: 3px; }
+
+    /* TYPE FILTERS */
+    .type-filters { max-width: 1100px; margin: 32px auto 0; padding: 0 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .type-label { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+    .type-btn { padding: 8px 18px; border-radius: 999px; border: 2px solid var(--border); background: white; font-size: 0.85rem; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.2s; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+    .type-btn:hover, .type-btn.active { background: var(--green); color: white; border-color: var(--green); }
+
+    /* JOBS GRID */
+    .jobs-section { max-width: 1100px; margin: 28px auto 60px; padding: 0 16px; }
+    .jobs-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+    .jobs-header h2 { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 800; }
+    .jobs-count { font-size: 0.85rem; color: var(--text-muted); }
+    .jobs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+
+    /* JOB CARD */
+    .job-card { background: white; border-radius: 16px; padding: 22px; box-shadow: var(--shadow); border: 1.5px solid var(--border); transition: all 0.2s; animation: fadeUp 0.4s ease both; }
+    .job-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(26,63,170,0.14); }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+    .company-logo { width: 44px; height: 44px; border-radius: 10px; background: var(--bg); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; color: var(--brand); flex-shrink: 0; }
+    .job-title { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; flex: 1; line-height: 1.3; }
+    .company-name { font-size: 0.85rem; color: var(--text-muted); margin-top: 2px; }
+    .job-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+    .meta-chip { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 6px; background: var(--bg); font-size: 0.75rem; color: var(--text-muted); }
+    .type-chip { padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; }
+    .chip-fresher { background: #f0fdf4; color: #059669; }
+    .chip-internship { background: #fdf4ff; color: #9333ea; }
+    .chip-entry { background: #eff6ff; color: #2563eb; }
+    .job-desc { font-size: 0.83rem; color: var(--text-muted); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 14px; }
+    .card-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid var(--border); }
+    .apply-btn { padding: 9px 20px; background: var(--green); color: white; border: none; border-radius: 8px; font-size: 0.85rem; font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer; text-decoration: none; transition: background 0.2s; }
+    .apply-btn:hover { background: #059669; }
+    .salary-chip { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* LOADING */
+    .loading { grid-column: 1/-1; text-align: center; padding: 60px; }
+    .spinner { width: 48px; height: 48px; border: 4px solid var(--border); border-top-color: var(--green); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* TIPS SECTION */
+    .tips-section { background: white; padding: 48px 24px; margin-top: 0; }
+    .tips-inner { max-width: 1100px; margin: 0 auto; }
+    .tips-inner h2 { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; margin-bottom: 24px; text-align: center; }
+    .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+    .tip-card { background: var(--bg); border-radius: 14px; padding: 20px; border: 1.5px solid var(--border); }
+    .tip-icon { font-size: 2rem; margin-bottom: 10px; }
+    .tip-title { font-family: 'Syne', sans-serif; font-weight: 700; margin-bottom: 6px; }
+    .tip-text { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">Resume<span>IQ</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="jobs.html">All Jobs</a>
+    <a href="fresher-jobs.html" class="active">Fresher Jobs</a>
+    <a href="resume-builder.html">Resume Builder</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🎓 India's #1 Fresher Job Portal</div>
+  <h1>Find Your <span>First Job</span> in India</h1>
+  <p>Freshers, Interns & Entry-Level jobs across all industries — updated daily</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-num">50K+</div><div class="stat-label">Fresher Jobs</div></div>
+    <div class="stat"><div class="stat-num">5K+</div><div class="stat-label">Internships</div></div>
+    <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Companies Hiring</div></div>
+    <div class="stat"><div class="stat-num">18+</div><div class="stat-label">Industries</div></div>
+  </div>
+</div>
+
+<!-- SEARCH -->
+<div class="search-wrap">
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search fresher jobs, skills, companies..." />
+    <button onclick="searchJobs()">Search</button>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<div class="categories">
+  <h2>Browse by Category</h2>
+  <div class="cat-grid">
+    <div class="cat-card active" onclick="filterCat('all', this)">
+      <div class="cat-icon">🌐</div>
+      <div class="cat-name">All Jobs</div>
+      <div class="cat-count">50,000+</div>
+    </div>
+    <div class="cat-card" onclick="filterCat('software', this)">
+      <div class="cat-icon">💻</div>
+      <div class="cat-name">IT / Software</div>
+      <div class="cat-count">12,000+</div>
+    </div>
+    <div class="cat-card" onclick="filterCat('marketing', this)">
+      <div class="cat-icon">📢</div>
+      <div class="cat-name">Marketing</div>
+      <div class="cat-count">8,000+</div>
+    </div>
+    <div class="cat-card" onclick="filterCat('finance', this)">
+      <div class="cat-icon">💰</div>
+      <div class="cat-name">Finance</div>
+      <div class="cat-count">6,000+</div>
+    </div>
+    <div class="cat-card" onclick="filterCat('healthcare', this)">
+      <div class="cat-icon">🏥</div>
+      <div class="cat-name">Healthcare</div>
+      <div class="cat-count">5,000+</div>
+    </div>
+    <div class="cat-card" onclick="filterCat('teaching', this)">
+      <div class="cat-icon">🎓</div>
+      <div class="cat-name">Teaching</div>
+      <div class="cat-count">4,000+</div>
+    </div>
+    <div class="cat-card" onclick="filterCat('sales', this)">
+      <div class="cat-icon">🤝</div>
+      <div class="cat-name">Sales</div>
+      <div class="cat-count">7,000+</div>
+    </div>
+    <div class="cat-card" onclick="filterCat('data', this)">
+      <div class="cat-icon">📊</div>
+      <div class="cat-name">Data / Analytics</div>
+      <div class="cat-count">3,000+</div>
+    </div>
+  </div>
+</div>
+
+<!-- TYPE FILTERS -->
+<div class="type-filters">
+  <span class="type-label">Type:</span>
+  <button class="type-btn active" onclick="filterType('all', this)">🌐 All Types</button>
+  <button class="type-btn" onclick="filterType('fresher', this)">🎓 Fresher (0-1 yr)</button>
+  <button class="type-btn" onclick="filterType('internship', this)">📋 Internship</button>
+  <button class="type-btn" onclick="filterType('entry', this)">⭐ Entry Level</button>
+  <button class="type-btn" onclick="filterType('wfh', this)">🏠 Work from Home</button>
+</div>
+
+<!-- JOBS -->
+<div class="jobs-section">
+  <div class="jobs-header">
+    <h2>Latest Fresher Jobs</h2>
+    <span class="jobs-count" id="jobsCount">Loading...</span>
+  </div>
+  <div class="jobs-grid" id="jobsGrid">
+    <div class="loading"><div class="spinner"></div><p>Fetching fresher jobs...</p></div>
+  </div>
+</div>
+
+<!-- TIPS -->
+<div class="tips-section">
+  <div class="tips-inner">
+    <h2>💡 Tips for Freshers</h2>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-icon">📄</div>
+        <div class="tip-title">Build a Strong Resume</div>
+        <div class="tip-text">Use our free Resume Builder to create an ATS-friendly resume that gets noticed by recruiters.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🎯</div>
+        <div class="tip-title">Apply to Internships First</div>
+        <div class="tip-text">Internships give you real experience. Even 3 months of internship can boost your chances greatly.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🔗</div>
+        <div class="tip-title">Build LinkedIn Profile</div>
+        <div class="tip-text">70% of recruiters use LinkedIn. Create a complete profile with your skills, projects and education.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">📚</div>
+        <div class="tip-title">Get Certified</div>
+        <div class="tip-text">Free certifications from Google, Coursera, NPTEL add value to your resume and show initiative.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">💻</div>
+        <div class="tip-title">Build Projects</div>
+        <div class="tip-text">A GitHub with 2-3 projects shows employers your skills better than marks alone.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">📧</div>
+        <div class="tip-title">Follow Up</div>
+        <div class="tip-text">After applying, follow up with a polite email after 3-5 days. It shows enthusiasm and initiative.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Config - Adzuna API
+  const ADZUNA_APP_ID = '34b3720f';
+  const ADZUNA_APP_KEY = 'dcb28056b2804fd18a2fa90592c05d9b';
+
+  let allJobs = [];
+  let currentType = 'all';
+  let currentCat = 'all';
+  let currentSearch = '';
+
+  // Job types
+  const jobTypes = ['fresher', 'internship', 'entry level', 'trainee', 'graduate'];
+
+  // Demo fresher jobs
+  const demoJobs = [
+    { id: 1, title: 'Junior Software Developer', company: 'TechStartup India', location: 'Bengaluru', type: 'fresher', salary: '₹3L - ₹5L', desc: 'Looking for fresher developers with knowledge of HTML, CSS, JavaScript. Training will be provided.', cat: 'software', wfh: false },
+    { id: 2, title: 'Software Intern', company: 'Infosys BPM', location: 'Hyderabad', type: 'internship', salary: '₹15,000/month', desc: 'Internship opportunity for final year students in software development. Stipend provided.', cat: 'software', wfh: false },
+    { id: 3, title: 'Data Analyst Trainee', company: 'Analytics India', location: 'Pune', type: 'entry', salary: '₹3.5L - ₹5L', desc: 'Entry level data analyst role. Knowledge of Excel and basic SQL required. Full training provided.', cat: 'data', wfh: true },
+    { id: 4, title: 'Digital Marketing Executive', company: 'Growth Agency', location: 'Mumbai', type: 'fresher', salary: '₹2.5L - ₹4L', desc: 'Fresher role in digital marketing. Learn SEO, social media marketing, content creation.', cat: 'marketing', wfh: false },
+    { id: 5, title: 'Marketing Intern', company: 'Brand Solutions', location: 'Delhi NCR', type: 'internship', salary: '₹10,000/month', desc: 'Marketing internship for students. Work on real campaigns and learn from industry experts.', cat: 'marketing', wfh: true },
+    { id: 6, title: 'Junior Accountant', company: 'Finance Corp', location: 'Chennai', type: 'entry', salary: '₹2.5L - ₹4L', desc: 'Entry level accounting role. B.Com freshers preferred. Knowledge of Tally required.', cat: 'finance', wfh: false },
+    { id: 7, title: 'Finance Intern', company: 'Deloitte India', location: 'Mumbai', type: 'internship', salary: '₹20,000/month', desc: 'Prestigious internship at Deloitte for finance and accounting students.', cat: 'finance', wfh: false },
+    { id: 8, title: 'Healthcare Executive Trainee', company: 'Apollo Hospitals', location: 'Hyderabad', type: 'fresher', salary: '₹3L - ₹5L', desc: 'Management trainee program for healthcare freshers. Rotational program across departments.', cat: 'healthcare', wfh: false },
+    { id: 9, title: 'Sales Executive', company: 'HDFC Bank', location: 'All India', type: 'fresher', salary: '₹2.5L - ₹4L + incentives', desc: 'Fresher sales role with HDFC Bank. Excellent growth opportunities. Any graduate can apply.', cat: 'sales', wfh: false },
+    { id: 10, title: 'Python Developer Intern', company: 'AI Startup', location: 'Remote', type: 'internship', salary: '₹12,000/month', desc: 'Work from home Python internship. Learn machine learning and AI development.', cat: 'software', wfh: true },
+    { id: 11, title: 'Content Writer', company: 'Media House', location: 'Remote', type: 'fresher', salary: '₹2L - ₹3.5L', desc: 'Work from home content writing job for freshers. Good English writing skills required.', cat: 'marketing', wfh: true },
+    { id: 12, title: 'Teaching Assistant', company: 'EduTech Company', location: 'Bengaluru', type: 'entry', salary: '₹2.5L - ₹4L', desc: 'Teaching assistant role for graduates. Help students learn and grow. B.Ed preferred.', cat: 'teaching', wfh: false },
+    { id: 13, title: 'HR Intern', company: 'MNC Company', location: 'Pune', type: 'internship', salary: '₹10,000/month', desc: 'HR internship for MBA HR students. Learn recruitment, payroll and employee engagement.', cat: 'marketing', wfh: false },
+    { id: 14, title: 'Data Science Intern', company: 'Tech MNC', location: 'Bengaluru', type: 'internship', salary: '₹25,000/month', desc: 'Prestigious data science internship. Work on real ML projects with senior data scientists.', cat: 'data', wfh: false },
+    { id: 15, title: 'React Developer Fresher', company: 'Product Startup', location: 'Remote', type: 'fresher', salary: '₹4L - ₹7L', desc: 'Work from home React developer role for freshers. Knowledge of React and JavaScript required.', cat: 'software', wfh: true },
+  ];
+
+  async function fetchAdzunaFresherJobs(query) {
+    try {
+      const q = query || 'fresher graduate trainee';
+      const res = await fetch(
+        `https://api.adzuna.com/v1/api/jobs/in/search/1?app_id=${ADZUNA_APP_ID}&app_key=${ADZUNA_APP_KEY}&results_per_page=20&what=${encodeURIComponent(q)}&content-type=application/json`
+      );
+      const data = await res.json();
+      return (data.results || []).map(j => ({
+        id: 'az_' + j.id,
+        title: j.title,
+        company: j.company?.display_name || 'Company',
+        location: j.location?.display_name || 'India',
+        type: 'fresher',
+        salary: j.salary_min ? `₹${Math.round(j.salary_min/1000)}k - ₹${Math.round(j.salary_max/1000)}k` : 'As per industry',
+        desc: j.description?.slice(0, 150) || '',
+        cat: 'software',
+        wfh: j.title.toLowerCase().includes('remote') || j.title.toLowerCase().includes('work from home'),
+        url: j.redirect_url
+      }));
+    } catch(e) {
+      return [];
+    }
+  }
+
+  async function loadJobs(query) {
+    document.getElementById('jobsGrid').innerHTML = '<div class="loading"><div class="spinner"></div><p>Fetching fresher jobs...</p></div>';
+    const adzunaJobs = await fetchAdzunaFresherJobs(query || 'fresher graduate entry level trainee internship');
+    allJobs = [...demoJobs, ...adzunaJobs];
+    renderJobs();
+  }
+
+  function renderJobs() {
+    const grid = document.getElementById('jobsGrid');
+    let filtered = allJobs.filter(j => {
+      const matchCat = currentCat === 'all' || j.cat === currentCat;
+      const matchType = currentType === 'all' ||
+        (currentType === 'wfh' && j.wfh) ||
+        (currentType !== 'wfh' && j.type === currentType);
+      const matchSearch = !currentSearch ||
+        j.title.toLowerCase().includes(currentSearch) ||
+        j.company.toLowerCase().includes(currentSearch) ||
+        j.location.toLowerCase().includes(currentSearch);
+      return matchCat && matchType && matchSearch;
+    });
+
+    document.getElementById('jobsCount').textContent = `${filtered.length} jobs found`;
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '<div class="loading"><p>No jobs found. Try different filters.</p></div>';
+      return;
+    }
+
+    grid.innerHTML = filtered.map((job, i) => {
+      const initials = job.company.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+      const typeClass = job.type === 'internship' ? 'chip-internship' : job.type === 'entry' ? 'chip-entry' : 'chip-fresher';
+      const typeLabel = job.type === 'internship' ? '📋 Internship' : job.type === 'entry' ? '⭐ Entry Level' : '🎓 Fresher';
+      return `
+        <div class="job-card" style="animation-delay:${i*0.05}s">
+          <div class="card-top">
+            <div>
+              <div class="job-title">${job.title}</div>
+              <div class="company-name">${job.company}</div>
+            </div>
+            <div class="company-logo">${initials}</div>
+          </div>
+          <div class="job-meta">
+            <span class="meta-chip">📍 ${job.location}</span>
+            <span class="meta-chip">💰 ${job.salary}</span>
+            <span class="type-chip ${typeClass}">${typeLabel}</span>
+            ${job.wfh ? '<span class="type-chip chip-entry">🏠 WFH</span>' : ''}
+          </div>
+          <p class="job-desc">${job.desc}</p>
+          <div class="card-footer">
+            <a href="${job.url || '#'}" target="_blank" class="apply-btn">Apply Now →</a>
+            <span class="salary-chip">0-1 yr exp</span>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function searchJobs() {
+    currentSearch = document.getElementById('searchInput').value.toLowerCase().trim();
+    loadJobs(currentSearch || null);
+  }
+
+  function filterCat(cat, el) {
+    currentCat = cat;
+    document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    renderJobs();
+  }
+
+  function filterType(type, el) {
+    currentType = type;
+    document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    renderJobs();
+  }
+
+  document.getElementById('searchInput').addEventListener('keypress', e => {
+    if (e.key === 'Enter') searchJobs();
+  });
+
+  loadJobs();
+</script>
+</body>
+</html>
