@@ -1,0 +1,506 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Post a Job — ResumeIQ</title>
+  <meta name="description" content="Post jobs on ResumeIQ and reach thousands of job seekers across India." />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand: #1a3faa; --brand-dark: #0f2680; --accent: #f97316;
+      --green: #10b981; --purple: #8b5cf6; --gold: #f59e0b;
+      --bg: #f0f4ff; --text: #0f172a; --text-muted: #64748b;
+      --border: #e2e8f0; --shadow: 0 4px 24px rgba(26,63,170,0.10);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); }
+
+    /* NAV */
+    nav { background: white; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 8px rgba(0,0,0,0.06); flex-wrap: wrap; gap: 10px; }
+    .logo { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: var(--brand); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    .nav-back { color: var(--brand); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+
+    /* HERO */
+    .hero { background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand) 55%, #2563eb 100%); color: white; text-align: center; padding: 56px 24px 48px; }
+    .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; }
+    .hero h1 span { color: var(--accent); }
+    .hero p { margin-top: 12px; opacity: 0.9; font-size: 1.05rem; }
+    .hero-stats { display: flex; justify-content: center; gap: 32px; margin-top: 28px; flex-wrap: wrap; }
+    .hero-stat { text-align: center; }
+    .hero-stat-num { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; }
+    .hero-stat-label { font-size: 0.8rem; opacity: 0.8; }
+
+    /* PLANS */
+    .plans-section { max-width: 1100px; margin: 48px auto 0; padding: 0 16px; }
+    .plans-section h2 { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; text-align: center; margin-bottom: 8px; }
+    .plans-section p { text-align: center; color: var(--text-muted); margin-bottom: 32px; }
+    .plans-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+    .plan-card { background: white; border-radius: 20px; padding: 32px 24px; border: 2px solid var(--border); box-shadow: var(--shadow); position: relative; transition: transform 0.2s; }
+    .plan-card:hover { transform: translateY(-4px); }
+    .plan-card.popular { border-color: var(--brand); }
+    .plan-card.featured-plan { border-color: var(--gold); }
+    .popular-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--brand); color: white; padding: 4px 16px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; white-space: nowrap; }
+    .featured-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--gold); color: white; padding: 4px 16px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; white-space: nowrap; }
+    .plan-name { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; }
+    .plan-price { font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800; color: var(--brand); }
+    .plan-price span { font-size: 1rem; color: var(--text-muted); font-weight: 400; }
+    .plan-desc { font-size: 0.85rem; color: var(--text-muted); margin: 12px 0 20px; }
+    .plan-features { list-style: none; margin-bottom: 24px; }
+    .plan-features li { font-size: 0.88rem; padding: 6px 0; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); }
+    .plan-features li:last-child { border: none; }
+    .check { color: var(--green); font-weight: 700; }
+    .cross { color: #ef4444; }
+    .plan-btn { width: 100%; padding: 14px; border-radius: 12px; border: none; font-size: 1rem; font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .plan-btn-free { background: var(--bg); color: var(--brand); border: 2px solid var(--brand); }
+    .plan-btn-free:hover { background: var(--brand); color: white; }
+    .plan-btn-paid { background: var(--brand); color: white; }
+    .plan-btn-paid:hover { background: var(--brand-dark); }
+    .plan-btn-gold { background: linear-gradient(135deg, var(--gold), #d97706); color: white; }
+    .plan-btn-gold:hover { opacity: 0.9; }
+
+    /* FORM */
+    .form-section { max-width: 800px; margin: 48px auto 60px; padding: 0 16px; }
+    .form-section h2 { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; }
+    .form-section p { color: var(--text-muted); margin-bottom: 28px; }
+    .form-card { background: white; border-radius: 20px; padding: 32px; box-shadow: var(--shadow); border: 1.5px solid var(--border); }
+
+    /* PLAN SELECTOR IN FORM */
+    .plan-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 28px; }
+    .plan-option { border: 2px solid var(--border); border-radius: 12px; padding: 16px 12px; text-align: center; cursor: pointer; transition: all 0.2s; }
+    .plan-option:hover { border-color: var(--brand); }
+    .plan-option.selected { border-color: var(--brand); background: #eef2ff; }
+    .plan-option.selected-gold { border-color: var(--gold); background: #fffbeb; }
+    .plan-option-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; }
+    .plan-option-price { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+    .plan-option-icon { font-size: 1.5rem; margin-bottom: 6px; }
+
+    /* FORM FIELDS */
+    .form-section-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin: 24px 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    @media(max-width:600px) { .form-row { grid-template-columns: 1fr; } .plan-selector { grid-template-columns: 1fr; } }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    label { font-size: 0.82rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    input, textarea, select { padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 0.9rem; font-family: 'DM Sans', sans-serif; color: var(--text); outline: none; transition: border-color 0.2s; width: 100%; }
+    input:focus, textarea:focus, select:focus { border-color: var(--brand); }
+    textarea { resize: vertical; min-height: 100px; }
+    .required { color: red; }
+
+    /* FEATURED OPTIONS */
+    .featured-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    .feat-option { border: 2px solid var(--border); border-radius: 10px; padding: 14px; cursor: pointer; transition: all 0.2s; }
+    .feat-option:hover { border-color: var(--gold); }
+    .feat-option.selected { border-color: var(--gold); background: #fffbeb; }
+    .feat-option-title { font-weight: 700; font-size: 0.88rem; margin-bottom: 4px; }
+    .feat-option-price { color: var(--gold); font-weight: 700; font-size: 0.85rem; }
+    .feat-option-desc { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* SUBMIT */
+    .submit-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, var(--brand), var(--brand-dark)); color: white; border: none; border-radius: 12px; font-size: 1.05rem; font-family: 'Syne', sans-serif; font-weight: 700; cursor: pointer; margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform 0.2s; box-shadow: 0 4px 16px rgba(26,63,170,0.3); }
+    .submit-btn:hover { transform: translateY(-2px); }
+    .submit-note { text-align: center; font-size: 0.82rem; color: var(--text-muted); margin-top: 12px; }
+
+    /* SUCCESS */
+    .success-card { display: none; background: #f0fdf4; border: 2px solid var(--green); border-radius: 16px; padding: 32px; text-align: center; }
+    .success-card.show { display: block; }
+    .success-icon { font-size: 3rem; margin-bottom: 16px; }
+    .success-title { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--green); margin-bottom: 8px; }
+    .success-text { color: var(--text-muted); font-size: 0.9rem; }
+
+    /* WHY SECTION */
+    .why-section { background: white; padding: 48px 24px; }
+    .why-inner { max-width: 1100px; margin: 0 auto; }
+    .why-inner h2 { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; text-align: center; margin-bottom: 32px; }
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+    .why-card { text-align: center; padding: 20px; }
+    .why-icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .why-title { font-family: 'Syne', sans-serif; font-weight: 700; margin-bottom: 6px; }
+    .why-text { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">Resume<span>IQ</span></a>
+  <a href="index.html" class="nav-back">← Back to Home</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Post Jobs on <span>ResumeIQ</span></h1>
+  <p>Reach thousands of qualified candidates across India — Freshers to Senior professionals</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hero-stat-num">50K+</div><div class="hero-stat-label">Active Job Seekers</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">18+</div><div class="hero-stat-label">Industries</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">500+</div><div class="hero-stat-label">Cities</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">24hrs</div><div class="hero-stat-label">Go Live Time</div></div>
+  </div>
+</div>
+
+<!-- PLANS -->
+<div class="plans-section">
+  <h2>Choose Your Plan</h2>
+  <p>Start free or go featured to reach more candidates faster</p>
+  <div class="plans-grid">
+
+    <!-- FREE -->
+    <div class="plan-card">
+      <div class="plan-name">🆓 Basic Free</div>
+      <div class="plan-price">₹0 <span>/ job post</span></div>
+      <div class="plan-desc">Perfect for startups and small businesses</div>
+      <ul class="plan-features">
+        <li><span class="check">✅</span> 1 job posting</li>
+        <li><span class="check">✅</span> 30 days listing</li>
+        <li><span class="check">✅</span> Standard visibility</li>
+        <li><span class="check">✅</span> All job seekers</li>
+        <li><span class="cross">❌</span> Featured placement</li>
+        <li><span class="cross">❌</span> Priority support</li>
+        <li><span class="cross">❌</span> Analytics dashboard</li>
+      </ul>
+      <button class="plan-btn plan-btn-free" onclick="selectPlan('free')">Post for Free</button>
+    </div>
+
+    <!-- STANDARD -->
+    <div class="plan-card popular">
+      <div class="popular-badge">⭐ Most Popular</div>
+      <div class="plan-name">💼 Standard</div>
+      <div class="plan-price">₹999 <span>/ job post</span></div>
+      <div class="plan-desc">Best for growing companies hiring regularly</div>
+      <ul class="plan-features">
+        <li><span class="check">✅</span> 3 job postings</li>
+        <li><span class="check">✅</span> 60 days listing</li>
+        <li><span class="check">✅</span> Featured placement</li>
+        <li><span class="check">✅</span> All job seekers</li>
+        <li><span class="check">✅</span> Email applications</li>
+        <li><span class="check">✅</span> Priority support</li>
+        <li><span class="cross">❌</span> Analytics dashboard</li>
+      </ul>
+      <button class="plan-btn plan-btn-paid" onclick="selectPlan('standard')">Get Standard</button>
+    </div>
+
+    <!-- FEATURED -->
+    <div class="plan-card featured-plan">
+      <div class="featured-badge">🏆 Best Value</div>
+      <div class="plan-name">🌟 Featured</div>
+      <div class="plan-price">₹2,499 <span>/ month</span></div>
+      <div class="plan-desc">For companies with monthly hiring needs</div>
+      <ul class="plan-features">
+        <li><span class="check">✅</span> Unlimited job postings</li>
+        <li><span class="check">✅</span> 90 days listing</li>
+        <li><span class="check">✅</span> Top featured placement</li>
+        <li><span class="check">✅</span> Company profile page</li>
+        <li><span class="check">✅</span> Email + WhatsApp alerts</li>
+        <li><span class="check">✅</span> Analytics dashboard</li>
+        <li><span class="check">✅</span> Dedicated support</li>
+      </ul>
+      <button class="plan-btn plan-btn-gold" onclick="selectPlan('featured')">Go Featured</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- JOB POSTING FORM -->
+<div class="form-section">
+  <h2>📝 Post Your Job</h2>
+  <p>Fill in the details below and your job will go live within 24 hours</p>
+
+  <div class="form-card" id="formCard">
+
+    <!-- PLAN SELECTOR -->
+    <div class="form-section-title">💳 Select Plan</div>
+    <div class="plan-selector">
+      <div class="plan-option selected" id="plan-free" onclick="selectPlan('free')">
+        <div class="plan-option-icon">🆓</div>
+        <div class="plan-option-name">Basic Free</div>
+        <div class="plan-option-price">₹0</div>
+      </div>
+      <div class="plan-option" id="plan-standard" onclick="selectPlan('standard')">
+        <div class="plan-option-icon">💼</div>
+        <div class="plan-option-name">Standard</div>
+        <div class="plan-option-price">₹999/post</div>
+      </div>
+      <div class="plan-option" id="plan-featured" onclick="selectPlan('featured')">
+        <div class="plan-option-icon">🌟</div>
+        <div class="plan-option-name">Featured</div>
+        <div class="plan-option-price">₹2,499/month</div>
+      </div>
+    </div>
+
+    <!-- COMPANY INFO -->
+    <div class="form-section-title">🏢 Company Information</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Company Name <span class="required">*</span></label>
+        <input type="text" id="companyName" placeholder="TechCorp India Pvt Ltd" />
+      </div>
+      <div class="form-group">
+        <label>Industry <span class="required">*</span></label>
+        <select id="industry">
+          <option value="">Select Industry</option>
+          <option>Information Technology</option>
+          <option>Healthcare</option>
+          <option>Finance & Banking</option>
+          <option>Engineering & Manufacturing</option>
+          <option>Marketing & Advertising</option>
+          <option>Education & Teaching</option>
+          <option>Sales & Business Development</option>
+          <option>Human Resources</option>
+          <option>Hospitality & Tourism</option>
+          <option>Retail & E-commerce</option>
+          <option>Government & Public Sector</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Company Website</label>
+        <input type="text" id="companyWebsite" placeholder="https://yourcompany.com" />
+      </div>
+      <div class="form-group">
+        <label>Contact Email <span class="required">*</span></label>
+        <input type="email" id="contactEmail" placeholder="hr@yourcompany.com" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Contact Phone</label>
+        <input type="text" id="contactPhone" placeholder="+91 98765 43210" />
+      </div>
+      <div class="form-group">
+        <label>Company Size</label>
+        <select id="companySize">
+          <option>1-10 employees</option>
+          <option>11-50 employees</option>
+          <option>51-200 employees</option>
+          <option>201-500 employees</option>
+          <option>500+ employees</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- JOB INFO -->
+    <div class="form-section-title">💼 Job Details</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Job Title <span class="required">*</span></label>
+        <input type="text" id="jobTitle" placeholder="Software Engineer" />
+      </div>
+      <div class="form-group">
+        <label>Job Location <span class="required">*</span></label>
+        <input type="text" id="jobLocation" placeholder="Bengaluru, Karnataka" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Employment Type</label>
+        <select id="jobType">
+          <option>Full-time</option>
+          <option>Part-time</option>
+          <option>Contract</option>
+          <option>Internship</option>
+          <option>Freelance</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Work Mode</label>
+        <select id="workMode">
+          <option>On-site</option>
+          <option>Remote</option>
+          <option>Hybrid</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Experience Required</label>
+        <select id="experience">
+          <option>Fresher (0-1 year)</option>
+          <option>Junior (1-3 years)</option>
+          <option>Mid-level (3-6 years)</option>
+          <option>Senior (6-10 years)</option>
+          <option>Lead/Manager (10+ years)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Salary Range</label>
+        <input type="text" id="salary" placeholder="₹3L - ₹5L per year" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Job Description <span class="required">*</span></label>
+      <textarea id="jobDesc" placeholder="Describe the role, responsibilities, and what a typical day looks like..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Required Skills</label>
+      <input type="text" id="skills" placeholder="React, Node.js, MySQL, Git (comma separated)" />
+    </div>
+    <div class="form-group">
+      <label>Qualifications</label>
+      <input type="text" id="qualifications" placeholder="B.Tech / BCA / Any Graduate" />
+    </div>
+    <div class="form-group">
+      <label>Application Deadline</label>
+      <input type="date" id="deadline" />
+    </div>
+
+    <!-- FEATURED ADD-ONS (shown for paid plans) -->
+    <div id="featuredOptions" style="display:none">
+      <div class="form-section-title">⭐ Featured Add-ons</div>
+      <div class="featured-options">
+        <div class="feat-option" onclick="toggleFeatured(this)">
+          <div class="feat-option-title">🔝 Top of Search</div>
+          <div class="feat-option-price">+₹499</div>
+          <div class="feat-option-desc">Your job appears at the top of all search results</div>
+        </div>
+        <div class="feat-option" onclick="toggleFeatured(this)">
+          <div class="feat-option-title">📧 Email Blast</div>
+          <div class="feat-option-price">+₹299</div>
+          <div class="feat-option-desc">Send to 10,000+ registered job seekers via email</div>
+        </div>
+        <div class="feat-option" onclick="toggleFeatured(this)">
+          <div class="feat-option-title">📱 WhatsApp Alert</div>
+          <div class="feat-option-price">+₹399</div>
+          <div class="feat-option-desc">Send WhatsApp notification to matching candidates</div>
+        </div>
+        <div class="feat-option" onclick="toggleFeatured(this)">
+          <div class="feat-option-title">🏷️ Urgent Hiring Badge</div>
+          <div class="feat-option-price">+₹199</div>
+          <div class="feat-option-desc">Show "Urgent Hiring" badge to attract more applicants</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <button class="submit-btn" onclick="submitJob()">
+      🚀 Post My Job Now
+    </button>
+    <p class="submit-note">✅ Your job will be reviewed and go live within 24 hours. You'll receive a confirmation email.</p>
+
+  </div>
+
+  <!-- SUCCESS MESSAGE -->
+  <div class="success-card" id="successCard">
+    <div class="success-icon">🎉</div>
+    <div class="success-title">Job Posted Successfully!</div>
+    <div class="success-text">
+      Thank you! Your job posting has been received.<br><br>
+      📧 We'll send a confirmation to your email within 1 hour.<br>
+      ⏰ Your job will go live within 24 hours.<br><br>
+      <strong>Want to post more jobs or upgrade your plan?</strong><br>
+      Contact us: <a href="mailto:resumeiq.india@gmail.com">resumeiq.india@gmail.com</a>
+    </div>
+    <br>
+    <a href="index.html" style="display:inline-block;padding:12px 28px;background:var(--brand);color:white;border-radius:10px;text-decoration:none;font-family:'Syne',sans-serif;font-weight:700;margin-top:8px">← Back to Home</a>
+  </div>
+</div>
+
+<!-- WHY RESUMEIQ -->
+<div class="why-section">
+  <div class="why-inner">
+    <h2>Why Post on ResumeIQ?</h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">🎯</div>
+        <div class="why-title">Targeted Reach</div>
+        <div class="why-text">Reach freshers, experienced professionals and everyone in between across India</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">⚡</div>
+        <div class="why-title">Go Live in 24hrs</div>
+        <div class="why-text">Your job posting goes live within 24 hours of submission</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">💰</div>
+        <div class="why-title">Affordable Plans</div>
+        <div class="why-text">Start free or choose paid plans starting at just ₹999 per job post</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📊</div>
+        <div class="why-title">Monthly Updates</div>
+        <div class="why-text">Update your job listings every month with our Featured plan</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🔍</div>
+        <div class="why-title">Smart Matching</div>
+        <div class="why-text">Our system matches your job with the most relevant candidates automatically</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📱</div>
+        <div class="why-title">Mobile Optimized</div>
+        <div class="why-text">Your job is visible on mobile, tablet and desktop to all candidates</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let selectedPlan = 'free';
+
+  function selectPlan(plan) {
+    selectedPlan = plan;
+    document.querySelectorAll('.plan-option').forEach(el => {
+      el.classList.remove('selected', 'selected-gold');
+    });
+    const el = document.getElementById(`plan-${plan}`);
+    if (plan === 'featured') el.classList.add('selected-gold');
+    else el.classList.add('selected');
+    document.getElementById('featuredOptions').style.display = plan !== 'free' ? 'block' : 'none';
+
+    // Scroll to form
+    document.querySelector('.form-section').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function toggleFeatured(el) {
+    el.classList.toggle('selected');
+  }
+
+  function submitJob() {
+    const required = ['companyName', 'industry', 'contactEmail', 'jobTitle', 'jobLocation', 'jobDesc'];
+    for (const id of required) {
+      if (!document.getElementById(id).value.trim()) {
+        alert(`Please fill in: ${id.replace(/([A-Z])/g, ' $1')}`);
+        document.getElementById(id).focus();
+        return;
+      }
+    }
+
+    // Collect data
+    const jobData = {
+      plan: selectedPlan,
+      company: document.getElementById('companyName').value,
+      industry: document.getElementById('industry').value,
+      email: document.getElementById('contactEmail').value,
+      phone: document.getElementById('contactPhone').value,
+      website: document.getElementById('companyWebsite').value,
+      title: document.getElementById('jobTitle').value,
+      location: document.getElementById('jobLocation').value,
+      type: document.getElementById('jobType').value,
+      workMode: document.getElementById('workMode').value,
+      experience: document.getElementById('experience').value,
+      salary: document.getElementById('salary').value,
+      description: document.getElementById('jobDesc').value,
+      skills: document.getElementById('skills').value,
+      qualifications: document.getElementById('qualifications').value,
+      deadline: document.getElementById('deadline').value,
+      submittedAt: new Date().toLocaleString('en-IN')
+    };
+
+    // Save to localStorage
+    const jobs = JSON.parse(localStorage.getItem('postedJobs') || '[]');
+    jobs.push(jobData);
+    localStorage.setItem('postedJobs', JSON.stringify(jobs));
+
+    // Show success
+    document.getElementById('formCard').style.display = 'none';
+    document.getElementById('successCard').classList.add('show');
+    document.getElementById('successCard').scrollIntoView({ behavior: 'smooth' });
+
+    console.log('Job posted:', jobData);
+  }
+</script>
+</body>
+</html>
