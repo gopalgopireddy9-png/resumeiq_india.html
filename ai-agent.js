@@ -22,10 +22,10 @@ const AGENT_CONFIG = {
   // ➜ Your UPI ID shown at payment step (set to "" to hide)
   upiId: "resumeiq@upi",
 
-  // ➜ Your calling-agent phone number, e.g. "+1 415 555 0123"
-  //    When set, a "Call our AI agent" button appears on the site.
-  //    Leave "" to hide it.
-  agentPhone: "",
+  // ➜ Number shown on the green "Call" button. Right now it dials your
+  //    number directly; later you can replace it with the AI agent's
+  //    Twilio number. Leave "" to hide the button.
+  agentPhone: "+91 93918 65480",
 
   // ➜ URL of the calling-agent server (call-agent/), e.g.
   //    "https://resumeiq-agent.onrender.com". When set, chat orders
