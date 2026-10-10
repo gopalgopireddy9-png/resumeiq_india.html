@@ -22,6 +22,16 @@ const AGENT_CONFIG = {
   // ➜ Your UPI ID shown at payment step (set to "" to hide)
   upiId: "resumeiq@upi",
 
+  // ➜ Your calling-agent phone number, e.g. "+1 415 555 0123"
+  //    When set, a "Call our AI agent" button appears on the site.
+  //    Leave "" to hide it.
+  agentPhone: "",
+
+  // ➜ URL of the calling-agent server (call-agent/), e.g.
+  //    "https://resumeiq-agent.onrender.com". When set, chat orders
+  //    are also saved on that server (visible in its /orders board).
+  apiBase: "",
+
   // ➜ EDIT YOUR SERVICES & PRICES HERE
   services: [
     { id: "resume-writing",  name: "Professional Resume Writing",    price: 499,  delivery: "24–48 hours", icon: "📝" },
@@ -53,6 +63,23 @@ const AGENT_CONFIG = {
     const all = getOrders();
     all.push(o);
     try { localStorage.setItem(LS_ORDERS, JSON.stringify(all)); } catch (e) {}
+    // Sync to the calling-agent server if configured (fire & forget)
+    if (C.apiBase) {
+      try {
+        fetch(C.apiBase.replace(/\/$/, "") + "/api/orders", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            channel: "website",
+            orderId: o.id,
+            serviceId: o.serviceId,
+            customerName: o.name,
+            phone: o.contact,
+            notes: o.notes || "",
+          }),
+        }).catch(function () {});
+      } catch (e) {}
+    }
     return o;
   }
   function findOrder(id) {
@@ -106,6 +133,14 @@ const AGENT_CONFIG = {
     box-shadow:0 8px 24px rgba(15,38,128,.45);display:flex;align-items:center;justify-content:center;
     transition:transform .2s;}
   #riq-fab:hover{transform:scale(1.07)}
+  #riq-call{position:fixed;right:20px;bottom:92px;z-index:9998;display:flex;align-items:center;gap:8px;
+    background:#fff;border:2px solid #4ade80;color:#111827;text-decoration:none;padding:10px 16px;
+    border-radius:30px;font-family:'DM Sans',system-ui,sans-serif;font-size:13.5px;font-weight:600;
+    box-shadow:0 8px 24px rgba(17,24,39,.18);transition:transform .2s}
+  #riq-call:hover{transform:scale(1.05)}
+  #riq-call .riq-call-dot{width:9px;height:9px;border-radius:50%;background:#22c55e;animation:riqpulse 1.4s infinite}
+  @keyframes riqpulse{0%,100%{opacity:1}50%{opacity:.3}}
+  @media (max-width:480px){#riq-call{right:12px;bottom:86px}}
   #riq-fab svg{width:30px;height:30px;fill:#fff}
   #riq-fab .riq-dot{position:absolute;top:4px;right:4px;width:12px;height:12px;border-radius:50%;
     background:#f97316;border:2px solid #fff}
@@ -163,6 +198,15 @@ const AGENT_CONFIG = {
   fab.innerHTML =
     `<svg viewBox="0 0 24 24"><path d="M12 2a9.5 9.5 0 0 0-9.5 9.5c0 1.7.45 3.3 1.24 4.68L2.5 21.5l5.5-1.4A9.46 9.46 0 0 0 12 21.5 9.5 9.5 0 0 0 12 2zm-4 8h8v1.8H8V10zm0-3h8v1.8H8V7z"/></svg><span class="riq-dot"></span>`;
 
+  let callPill = null;
+  if (C.agentPhone) {
+    callPill = document.createElement("a");
+    callPill.id = "riq-call";
+    callPill.href = "tel:" + C.agentPhone.replace(/[^\d+]/g, "");
+    callPill.innerHTML = `<span class="riq-call-dot"></span>📞 Call our AI agent <b style="color:#1a3faa">${esc(C.agentPhone)}</b>`;
+    document.body.appendChild(callPill);
+  }
+
   const panel = document.createElement("div");
   panel.id = "riq-panel";
   panel.innerHTML =
@@ -199,6 +243,7 @@ const AGENT_CONFIG = {
   function toggle() {
     opened = !opened;
     panel.classList.toggle("open", opened);
+    if (callPill) callPill.style.display = opened ? "none" : "flex";
     if (opened) {
       input.focus();
       if (!greeted) { greeted = true; greet(); }
@@ -254,7 +299,9 @@ const AGENT_CONFIG = {
   /* ---------- flows ---------- */
   function greet() {
     bot(
-      `Hi! 👋 I'm <b>${esc(C.agentName)}</b>, the ${esc(C.businessName)} assistant.<br>I can take new orders, track existing ones, and answer questions about pricing, delivery &amp; refunds.<br><br>How can I help you today?`,
+      `Hi! 👋 I'm <b>${esc(C.agentName)}</b>, the ${esc(C.businessName)} assistant.<br>I can take new orders, track existing ones, and answer questions about pricing, delivery &amp; refunds.` +
+      (C.agentPhone ? `<br>📞 Prefer talking? Call me at <a href="tel:${esc(C.agentPhone.replace(/[^\d+]/g, ""))}">${esc(C.agentPhone)}</a> — I speak Telugu too!` : "") +
+      `<br><br>How can I help you today?`,
       [
         { label: "🛒 Place an order", value: "ORDER" },
         { label: "🔎 Track my order", value: "TRACK" },
