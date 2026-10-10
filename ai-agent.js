@@ -13,8 +13,8 @@ const AGENT_CONFIG = {
   businessName: "ResumeIQ",
   agentName: "IQ",
 
-  // ➜ Put your WhatsApp number here (country code + number, digits only)
-  whatsapp: "919999999999",
+  // ➜ Your WhatsApp number (country code + number, digits only)
+  whatsapp: "919391865480",
 
   // ➜ Your support email
   email: "support@resumeiq.in",
@@ -203,7 +203,7 @@ const AGENT_CONFIG = {
     callPill = document.createElement("a");
     callPill.id = "riq-call";
     callPill.href = "tel:" + C.agentPhone.replace(/[^\d+]/g, "");
-    callPill.innerHTML = `<span class="riq-call-dot"></span>📞 Call our AI agent <b style="color:#1a3faa">${esc(C.agentPhone)}</b>`;
+    callPill.innerHTML = `<span class="riq-call-dot"></span>📞 Call us: <b style="color:#1a3faa">${esc(C.agentPhone)}</b>`;
     document.body.appendChild(callPill);
   }
 

@@ -27,7 +27,7 @@ const {
   OPENAI_API_KEY,
   ORDERS_TOKEN = "resumeiq-admin",
   BUSINESS_NAME = "ResumeIQ",
-  SUPPORT_WHATSAPP = "919999999999",
+  SUPPORT_WHATSAPP = "919391865480",
   SUPPORT_EMAIL = "support@resumeiq.in",
   UPI_ID = "resumeiq@upi",
   PORT = 8090,
