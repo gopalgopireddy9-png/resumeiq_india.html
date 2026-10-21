@@ -492,7 +492,8 @@
 .r-section{font-size:11px;font-weight:700;color:#1a3faa;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
 .r-role{font-weight:700;font-size:14px}.r-company{color:#64748b;font-size:13px}.r-desc{font-size:13px;margin-top:4px}
 .r-skills{display:flex;flex-wrap:wrap;gap:6px}.r-skill{background:#f0f4ff;border:1px solid #e2e8f0;padding:3px 10px;border-radius:4px;font-size:12px}
-@media print{body{margin:0;padding:20px}}</style></head><body>${preview}</body></html>`;
+@media print{body{margin:0;padding:20px}}</style></head><body>${preview}
+</body></html>`;
     const blob = new Blob([html], {type:'text/html'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -504,5 +505,6 @@
   // Init
   setMode('fresher');
 </script>
+<script src="ai-agent.js" defer></script>
 </body>
 </html>
